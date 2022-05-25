@@ -33,9 +33,4 @@ class LoginController extends Controller
         auth()->logout();
         return redirect()->route('admin.login');
     }
-
-    public function home()
-    {
-        return view('admin.index');
-    }
 }

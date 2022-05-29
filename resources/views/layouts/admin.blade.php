@@ -110,10 +110,12 @@
                                 <i class="ti-settings text-primary"></i>
                                 Settings
                             </a>
-                            <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-                                <i class="ti-power-off text-primary" ></i>
-                                    Logout
-                                <form id="frm-logout" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                            <a class="dropdown-item"
+                                onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+                                <i class="ti-power-off text-primary"></i>
+                                Logout
+                                <form id="frm-logout" action="{{ route('admin.logout') }}" method="POST"
+                                    style="display: none;">
                                     @csrf
                                 </form>
                             </a>
@@ -330,6 +332,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.users') }}">
+                            <i class="icon-head menu-icon"></i>
+                            <span class="menu-title">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="ui-basic">
                             <i class="icon-layout menu-icon"></i>
@@ -444,7 +452,37 @@
                 </ul>
             </nav>
 
-            @yield('content')
+            <div class="main-panel">
+                @if (Session::has('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success !</strong> {{ Session::get('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @elseif (Session::has('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error !</strong> {{ Session::get('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
+                @yield('content')
+
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.
+                            Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin
+                                template</a> from
+                            BootstrapDash. All rights reserved.</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
+                            with <i class="ti-heart text-danger ml-1"></i></span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
 
             <!-- main-panel ends -->
         </div>

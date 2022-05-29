@@ -18,7 +18,8 @@ class LoginController extends Controller
     {
         $data = [
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
+            'is_active' => 1
         ];
         $remember = $request->has('remember') ? true : false;
 

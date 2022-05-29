@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +24,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('admin.users.create');
+        $countries = Country::orderby('name', 'asc')->get();
+        return view('admin.users.create', compact('countries'));
     }
 
     public function store(Request $request)
@@ -33,6 +35,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'dob' => $request->dob,
+            'country_id' => $request->country_id,
             'is_active' => $request->is_active,
         ];
 
@@ -53,8 +56,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        $countries = Country::orderby('name', 'asc')->get();
         $user = User::withoutGlobalScope('active')->withTrashed()->find(decrypt($id));
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user', 'countries'));
     }
 
     public function update(Request $request)
@@ -65,6 +69,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'dob' => $request->dob,
+            'country_id' => $request->country_id,
             'is_active' => $request->is_active,
         ];
 

@@ -37,7 +37,7 @@
 		-s : Seeder
 		-f : Factory
 		-R : Request
-		-all : All of above
+		-a : All of above
 
 6 - VIEWS
 ---------
@@ -66,5 +66,12 @@
 9 - DELETE
 ----------
 	* use SoftDeletes trait in model - For activate soft delete for model
+
+10 - DEBUG BAR
+--------------
+    * composer require barryvdh/laravel-debugbar --dev
+        - https://github.com/barryvdh/laravel-debugbar
+    * Only use for development
+
 
 

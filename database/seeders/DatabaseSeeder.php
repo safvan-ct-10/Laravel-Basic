@@ -17,9 +17,6 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10000)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call(CountrySeeder::class);
     }
 }

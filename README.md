@@ -58,10 +58,10 @@
 8 - CREATE / UPDATE
 ----------
 	* create, firstOrCreate, updateOrCreate
-	* Custome Request - php artisan make:request StorePostRequest
-	* Validation
 	* encrypt, decrypt id
 	* request->all(), except(), only()
+	* Custome Request - php artisan make:request StorePostRequest
+	* Validation - 
 
 9 - DELETE
 ----------
@@ -92,3 +92,21 @@
     * config mail at env
     * attach file - $this->view('emails.user-created')->attach('path'); On mailable class
 
+13 - ARTISAN COMMANDS
+---------------------
+	* php artisan make:command name
+    * Path - app/console/commands
+    * Methods - argument, ask, secret, confirm, anticipate, info, error, 
+
+14 - TASK SCHEDULING (Cron Job)
+--------------------
+    * Path - app/console/kernel.php schedule()
+    * php artisan schedule:list
+    * run - php artisan schedule:work
+    * https://laravel.com/docs/9.x/scheduling
+
+15 - EVENTS
+-----------
+
+16 - MODEL RELATIONS
+--------------------

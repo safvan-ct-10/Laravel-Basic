@@ -3,15 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserCreatedMail;
 use App\Models\Country;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
     public function index()
     {
+        // if(cache()->has('users')) {
+        //     $users = cache()->get('users');
+        // }
+        // else {
+        //     $users = User::withoutGlobalScope('active')->latest()->paginate(10);
+        //     cache()->put('users', $users, 60);
+        // }
+
         $users = User::withoutGlobalScope('active')->latest()->paginate(10);
         return view('admin.users.index', compact('users'));
     }
@@ -51,6 +61,13 @@ class UserController extends Controller
             'email' => $request->email,
         ], $data);
 
+        Mail::to('isafvanct@gmail.com')
+            ->cc('safvanctsfn@gmail.com', 'test@gmail.com') // Carbon Copy
+            ->bcc('abc.gmail.com') // Blind Carbon Copy
+            ->send(new UserCreatedMail($data));
+
+        cache()->forget('users');
+
         return  redirect()->route('admin.users')->with('success', 'User Created Successfully');
     }
 
@@ -78,6 +95,13 @@ class UserController extends Controller
         }
 
         $user->update($data);
+
+        Mail::to('isafvanct@gmail.com')
+            ->cc('safvanctsfn@gmail.com', 'test@gmail.com') // Carbon Copy
+            ->bcc('abc@gmail.com') // Blind Carbon Copy
+            ->send(new UserCreatedMail($data));
+
+        cache()->forget('users');
 
         return  redirect()->route('admin.users')->with('success', 'User Updated Successfully');
     }

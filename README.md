@@ -6,7 +6,7 @@
 	* Setup env file
 	* Setup DB and run migration : if have err add length for err occured field
 
-2 - DB SEEDER $ FACTORY
+2 - DB SEEDER & FACTORY
 -----------------------
 	* add factory for data - php make:factory UserFactory
 	* call factory in DatabaseSeeder class run() 
@@ -73,5 +73,22 @@
         - https://github.com/barryvdh/laravel-debugbar
     * Only use for development
 
+11 - CACHE
+----------
+    * Basic cache - cache()->put(key, value, seconds);
+        - $users = cache()->get('key');
+        - cache()->forget('key');
+    * Set cache drivers in config/cache.php
+    * model cache package - https://github.com/GeneaLabs/laravel-model-caching
+        - composer require genealabs/laravel-model-caching
+        - php artisan modelCache:publish --config
+        - not use in authorization model
+    * redis - https://www.honeybadger.io/blog/laravel-caching-redis/
 
+12 - MAIL
+---------
+    * php artisan make:mail UserCreatedMail
+    * test mail - https://www.mailspons.com/app/inboxes/5342/messages/14521140
+    * config mail at env
+    * attach file - $this->view('emails.user-created')->attach('path'); On mailable class
 

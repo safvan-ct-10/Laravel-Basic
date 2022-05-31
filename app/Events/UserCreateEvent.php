@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -21,6 +22,7 @@ class UserCreateEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
+        $this->data = User::withoutGlobalScope('active')->where('is_open', 0)->latest()->limit(10)->get();
         return new Channel('user-create');
     }
 

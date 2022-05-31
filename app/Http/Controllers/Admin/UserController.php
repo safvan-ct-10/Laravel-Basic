@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\UserCreateEvent;
 use App\Http\Controllers\Controller;
 use App\Mail\UserCreatedMail;
 use App\Models\Country;
@@ -96,14 +97,11 @@ class UserController extends Controller
 
         $user->update($data);
 
-        Mail::to('isafvanct@gmail.com')
-            ->cc('safvanctsfn@gmail.com', 'test@gmail.com') // Carbon Copy
-            ->bcc('abc@gmail.com') // Blind Carbon Copy
-            ->send(new UserCreatedMail($data));
+        UserCreateEvent::dispatch($data);
 
         cache()->forget('users');
 
-        return  redirect()->route('admin.users')->with('success', 'User Updated Successfully');
+        return  redirect()->back()->with('success', 'User Updated Successfully');
     }
 
     public function delete($id)

@@ -4,13 +4,11 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserCreateEvent
+class UserCreateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -23,6 +21,11 @@ class UserCreateEvent
 
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('user-create');
+    }
+
+    public function broadcastAs()
+    {
+        return 'user-create-event';
     }
 }

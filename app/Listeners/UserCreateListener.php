@@ -17,9 +17,9 @@ class UserCreateListener
 
     public function handle(UserCreateEvent $event)
     {
-        Mail::to('isafvanct@gmail.com')
-            ->cc('safvanctsfn@gmail.com', 'test@gmail.com') // Carbon Copy
-            ->bcc('abc@gmail.com') // Blind Carbon Copy
-            ->send(new UserCreatedMail($event->data));
+        // Mail::to('isafvanct@gmail.com')
+        //     ->cc('safvanctsfn@gmail.com', 'test@gmail.com') // Carbon Copy
+        //     ->bcc('abc@gmail.com') // Blind Carbon Copy
+        //     ->send(new UserCreatedMail($event->data));
     }
 }

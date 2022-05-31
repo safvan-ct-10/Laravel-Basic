@@ -213,6 +213,23 @@
     <script src="{{ asset('admin') }}/js/dashboard.js"></script>
     <script src="{{ asset('admin') }}/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
+
+    @yield('scripts')
+    <!-- Pusher Service -->
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('e1db95d5073dbb3fe5ed', {
+            cluster: 'ap2'
+        });
+
+        var channel = pusher.subscribe('user-create');
+            channel.bind('user-create-event', function(data) {
+            alert('New User Created - ' +data.data.name);
+        });
+    </script>
 </body>
 
 </html>

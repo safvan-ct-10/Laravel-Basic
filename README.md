@@ -2,7 +2,7 @@
 1 - INSTALLATION & CONFIG
 -------------------------
 	* Install composer 
-	* Lravel install via composer
+	* Lravel install via composer - composer create-project laravel/laravel example-app
 	* Setup env file
 	* Setup DB and run migration : if have err add length for err occured field
 
@@ -107,6 +107,22 @@
 
 15 - EVENTS
 -----------
+	* php artisan make:event UserCreateEvent
+    * Path - App\Events
+    * Call event actions through listeners
+    * php artisan make:listener UserCreateListener --event=UserCreateEvent
+    * Path - App\Listeners
+    * Write event action on - UserCreateListener handle()
+        - Call in controller : UserCreateEvent::dispatch($data);
+        - Access data on - UserCreateEvent construct()
+        - Make return true on - App\Providers\EventServiceProvider shouldDiscoverEvents() or add in $listen
+        - Add in $listen then create automatic event, listener
+            + UserCreateEvent::class => [ UserCreateListener::class, UserUpdateListener::class, ], add event and listenrs like this to $listener
+            + Use their path like - use App\Events\UserCreateEvent;, use App\Listeners\UserCreateListener;
+            + Run - php artisan event:generate
 
-16 - MODEL RELATIONS
+16 - BROADCASTING
+-----------------
+
+17 - MODEL RELATIONS
 --------------------

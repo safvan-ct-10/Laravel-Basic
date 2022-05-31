@@ -113,8 +113,8 @@
     * php artisan make:listener UserCreateListener --event=UserCreateEvent
     * Path - App\Listeners
     * Write event action on - UserCreateListener handle()
-        - Call in controller : UserCreateEvent::dispatch($data);
-        - Access data on - UserCreateEvent construct()
+        - Call event in controller : UserCreateEvent::dispatch($data);
+        - Access data on event - UserCreateEvent construct()
         - Make return true on - App\Providers\EventServiceProvider shouldDiscoverEvents() or add in $listen
         - Add in $listen then create automatic event, listener
             + UserCreateEvent::class => [ UserCreateListener::class, UserUpdateListener::class, ], add event and listenrs like this to $listener
@@ -123,6 +123,17 @@
 
 16 - BROADCASTING
 -----------------
+    * Live notifications / messages
+    * User providers pusher, firebase etc..
+    * Opensource alternative - https://github.com/beyondcode/laravel-websockets
+    * create pusher account - https://dashboard.pusher.com/
+    * Setup pusher credentials on env
+    * change BROADCAST_DRIVER on env - BROADCAST_DRIVER=pusher
+    * Setup pusher frontend and backend - https://dashboard.pusher.com/apps/1416665/getting_started
+    * For laravel - composer require pusher/pusher-php-server
+    * Event implement ShouldBroadcast
+    * Change PrivateChannel to Channel on - Event broadcastOn()
+    * Create broadcastAs() on Event and return event short name for call this event on frontend
 
 17 - MODEL RELATIONS
 --------------------

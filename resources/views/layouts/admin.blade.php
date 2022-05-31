@@ -54,50 +54,25 @@
                         <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
                             data-toggle="dropdown">
                             <i class="icon-bell mx-0"></i>
-                            <span class="count"></span>
+                            <span class="count" id="notif_status" @if (count(userNotifications()) == 0) style="display: none" @endif></span>
                         </a>
+
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
                             aria-labelledby="notificationDropdown">
                             <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-success">
-                                        <i class="ti-info-alt mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                                    <p class="font-weight-light small-text mb-0 text-muted">
-                                        Just now
-                                    </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-warning">
-                                        <i class="ti-settings mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject font-weight-normal">Settings</h6>
-                                    <p class="font-weight-light small-text mb-0 text-muted">
-                                        Private message
-                                    </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-info">
-                                        <i class="ti-user mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                                    <p class="font-weight-light small-text mb-0 text-muted">
-                                        2 days ago
-                                    </p>
-                                </div>
-                            </a>
+                            <span id="notif_result">
+                                @foreach (userNotifications() as $user)
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-info"> <i class="ti-user mx-0"></i> </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <h6 class="preview-subject font-weight-normal">{{ $user->name }}</h6>
+                                            <p class="font-weight-light small-text mb-0 text-muted">{{ $user->human_days }}</p>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            </span>
                         </div>
                     </li>
                     <li class="nav-item nav-profile dropdown">
@@ -219,15 +194,25 @@
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
         // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
+        //Pusher.logToConsole = true;
 
         var pusher = new Pusher('e1db95d5073dbb3fe5ed', {
             cluster: 'ap2'
         });
 
         var channel = pusher.subscribe('user-create');
-            channel.bind('user-create-event', function(data) {
-            alert('New User Created - ' +data.data.name);
+
+        channel.bind('user-create-event', function(data) {
+            $('#notif_status').show();
+            var newHTML = '';
+            $.each(data.data, function(key, val) {
+                $('#notif_result').empty();
+                newHTML = newHTML +
+                    '<a class="dropdown-item preview-item"> <div class="preview-thumbnail"> <div class="preview-icon bg-info"> <i class="ti-user mx-0"></i> </div> </div> <div class="preview-item-content"> <h6 class="preview-subject font-weight-normal">' +
+                    val.name +
+                    '</h6> <p class="font-weight-light small-text mb-0 text-muted">'+ val.human_days +'</p> </div> </a>';
+            });
+            $("#notif_result").append(newHTML);
         });
     </script>
 </body>

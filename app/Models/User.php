@@ -71,12 +71,17 @@ class User extends Authenticatable
         return Carbon::parse($this->dob)->age;
     }
 
+    public function getHumanDaysAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
     public function getActiveTextAttribute()
     {
         return $this->is_active == 1 ? 'ACTIVE' : 'IN ACTIVE';
     }
 
-    protected $appends = ['active_text', 'age'];
+    protected $appends = ['active_text', 'age', 'human_days'];
     // END : CREATE NEW COLUNM TO TABLE
 
     // MUTATOR - CHANGE DATA BEFORE SAVING

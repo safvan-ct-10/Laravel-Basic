@@ -23,6 +23,7 @@ class UserController extends Controller
         //     cache()->put('users', $users, 60);
         // }
 
+        User::withoutGlobalScope('active')->withTrashed()->where('is_open', 0)->update(['is_open' => 1]);
         $users = User::withoutGlobalScope('active')->latest()->paginate(10);
         return view('admin.users.index', compact('users'));
     }
@@ -69,7 +70,7 @@ class UserController extends Controller
 
         cache()->forget('users');
 
-        return  redirect()->route('admin.users')->with('success', 'User Created Successfully');
+        return redirect()->route('admin.users')->with('success', 'User Created Successfully');
     }
 
     public function edit($id)
@@ -89,10 +90,11 @@ class UserController extends Controller
             'dob' => $request->dob,
             'country_id' => $request->country_id,
             'is_active' => $request->is_active,
+            'is_open' => 0
         ];
 
-        if($request->has('password') && !is_null($request->password)) {
-           $data['password'] = Hash::make($request->password);
+        if ($request->has('password') && !is_null($request->password)) {
+            $data['password'] = Hash::make($request->password);
         }
 
         $user->update($data);
@@ -101,27 +103,27 @@ class UserController extends Controller
 
         cache()->forget('users');
 
-        return  redirect()->back()->with('success', 'User Updated Successfully');
+        return redirect()->back()->with('success', 'User Updated Successfully');
     }
 
     public function delete($id)
     {
         $user = User::withoutGlobalScope('active')->findOrFail(decrypt($id));
         $user->delete();
-        return  redirect()->route('admin.users')->with('success', 'User Trashed Successfully');
+        return redirect()->route('admin.users')->with('success', 'User Trashed Successfully');
     }
 
     public function recoverUser($id)
     {
         $user = User::withoutGlobalScope('active')->withTrashed()->findOrFail(decrypt($id));
         $user->restore();
-        return  redirect()->route('admin.users.trashed')->with('success', 'User Recovered Successfully');
+        return redirect()->route('admin.users.trashed')->with('success', 'User Recovered Successfully');
     }
 
     public function forceDelete($id)
     {
         $user = User::withoutGlobalScope('active')->withTrashed()->findOrFail(decrypt($id));
         $user->forceDelete();
-        return  redirect()->route('admin.users')->with('success', 'User Deleted Permenently');
+        return redirect()->route('admin.users')->with('success', 'User Deleted Permenently');
     }
 }

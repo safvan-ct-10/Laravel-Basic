@@ -173,3 +173,10 @@
     * php artisan make:controller ApiController --api
     * Path routes api
     * api routes not allowed session and csrf
+
+    * personal_access_tokens table are sanctum db table 
+    * In new laravel sanctum are in build
+    * https://laravel.com/docs/9.x/sanctum#main-content
+    * Call HasApiTokens : use HasApiTokens
+    * postman request Heade accept => application/json 
+

@@ -90,10 +90,17 @@ class User extends Authenticatable
         return $this->attributes['dob'] = date('d-M-y', strtotime($value));
     }
 
+    //HASONE RELATIONSHIP
+    public function country()
+    {
+        return $this->hasOne(Country::class, 'id', 'country_id');
+    }
 
 
 
 
+
+    // STUDY WHAT CAST
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

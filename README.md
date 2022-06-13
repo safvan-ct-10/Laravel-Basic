@@ -154,5 +154,18 @@
     * Run php artisan queue:listen
     * https://www.itsolutionstuff.com/post/laravel-8-queue-step-by-step-tutorial-exampleexample.html
 
-17 - MODEL RELATIONS
+19 - STUBS, COLLECTION AND HELPERS
+----------------------------------
+    * php artisan stub:publish
+    * path root folder stubs
+    * Customize artisan make commands
+    * https://laravel.com/docs/9.x/artisan#stub-customization
+
+    * https://laravel.com/docs/9.x/collections
+
+    * https://laravel.com/docs/9.x/helpers
+    * path App/Helpers.php
+    * Create custom helper function on helpers.php
+
+20 - API AND SANCTUM
 --------------------

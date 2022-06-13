@@ -24,6 +24,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'backend-admin', 'as' => 'adm
 
     // COUNTRY ROUTES
     Route::get('country', [Admin\CountryController::class, 'index'])->name('country');
+    Route::get('country/results', [Admin\CountryController::class, 'resluts'])->name('country.results');
     Route::get('country/create', [Admin\CountryController::class, 'create'])->name('country.create');
     Route::post('country/store', [Admin\CountryController::class, 'store'])->name('country.store');
     Route::get('country/edit/{country}', [Admin\CountryController::class, 'edit'])->name('country.edit');

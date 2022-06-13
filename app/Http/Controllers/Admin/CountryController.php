@@ -3,16 +3,34 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Country;
 use App\Http\Requests\StoreCountryRequest;
 use App\Http\Requests\UpdateCountryRequest;
+use App\Models\Country;
+use DataTables;
 
 class CountryController extends Controller
 {
     public function index()
     {
-        $countries = Country::orderby('name', 'asc')->paginate(10);
-        return view('admin.country.index', compact('countries'));
+        return view('admin.country.index');
+    }
+
+    public function resluts()
+    {
+        $data = Country::select('*');
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $edit = route('admin.country.edit', $row->id);
+                $delete = route('admin.country.delete', $row->id);
+
+                $btn = '<a href="'.$edit.'" class="btn btn-info">Edit</a>
+                <a href="'.$delete.'" class="btn btn-danger">Delete</a>';
+
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     public function create()
@@ -29,7 +47,7 @@ class CountryController extends Controller
 
         Country::create($data);
 
-        return  redirect()->route('admin.country')->with('success', 'Country Created Successfully');
+        return redirect()->route('admin.country')->with('success', 'Country Created Successfully');
     }
 
     public function edit(Country $country)
@@ -46,12 +64,12 @@ class CountryController extends Controller
 
         $country->update($data);
 
-        return  redirect()->route('admin.country')->with('success', 'Country Updated Successfully');
+        return redirect()->route('admin.country')->with('success', 'Country Updated Successfully');
     }
 
     public function destroy(Country $country)
     {
         $country->delete();
-        return  redirect()->route('admin.country')->with('success', 'Country Deleted Successfully');
+        return redirect()->route('admin.country')->with('success', 'Country Deleted Successfully');
     }
 }

@@ -3,62 +3,73 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function login(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'device' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if($user) {
+            if(Hash::check($request->password, $user->password)) {
+                $token = $user->createToken($request->device)->plainTextToken;
+                return response()->json([
+                    'response' => 'success',
+                    'message' => 'Login successfully',
+                    'token' => $token
+                ]);
+            }
+            else {
+                return response()->json([
+                    'response' => 'error',
+                    'message' => 'Inavlid password'
+                ]);
+            }
+        }
+        else {
+            return response()->json([
+                'response' => 'error',
+                'message' => 'Inavlid email address'
+            ]);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function getUser()
     {
-        //
+        $user_id = auth()->user()->id;
+        $user = User::with('country')->find($user_id)->makeHidden(['active_text', 'human_days']);
+        if($user) {
+            return response()->json([
+                'response' => 'success',
+                'user' => $user
+            ]);
+        }
+        else {
+            return response()->json([
+                'response' => 'error',
+                'message' => 'Inavlid User'
+            ]);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function logout()
     {
-        //
-    }
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        $user->tokens()->delete();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json([
+            'response' => 'success',
+            'message' => 'Loggedout successfully'
+        ]);
     }
 }

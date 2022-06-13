@@ -21,7 +21,7 @@
 		- register middleware in kernal.php 
 	* prevent browser page backword - Add below code for this 
 		$response->header('Cache-Control','no-cache, no-store, max-age=0, must-revalidate')->header('Pragma','no-cache')->header('Expires','Sun, 02 Jan 1990 00:00:00 GMT'); 
-	* namespaces - Add controolers path like ['namespaces' => 'App\Http\Controllers']
+	* namespaces - Add controolers Path like ['namespaces' => 'App\Http\Controllers']
 
 4 - CONTROLLERS
 ---------------
@@ -53,7 +53,8 @@
 	* DYNAMIC SCOPE - For check dynamic value as scope
 	* Pagination -  For enable bootstrap style call Paginator::useBootstrap();
 		- AppServiceProvider -> boot() -> Paginator::useBootstrap();
-	* Datatable -
+	* Datatable - composer require yajra/laravel-datatables-oracle
+    * https://www.itsolutionstuff.com/post/laravel-9-yajra-datatables-example-tutorialexample.html
 
 8 - CREATE / UPDATE
 ----------
@@ -90,7 +91,7 @@
     * php artisan make:mail UserCreatedMail
     * test mail - https://www.mailspons.com/app/inboxes/5342/messages/14521140
     * config mail at env
-    * attach file - $this->view('emails.user-created')->attach('path'); On mailable class
+    * attach file - $this->view('emails.user-created')->attach('Path'); On mailable class
 
 13 - ARTISAN COMMANDS
 ---------------------
@@ -118,7 +119,7 @@
         - Make return true on - App\Providers\EventServiceProvider shouldDiscoverEvents() or add in $listen
         - Add in $listen then create automatic event, listener
             + UserCreateEvent::class => [ UserCreateListener::class, UserUpdateListener::class, ], add event and listenrs like this to $listener
-            + Use their path like - use App\Events\UserCreateEvent;, use App\Listeners\UserCreateListener;
+            + Use their Path like - use App\Events\UserCreateEvent;, use App\Listeners\UserCreateListener;
             + Run - php artisan event:generate
 
 16 - BROADCASTING
@@ -154,5 +155,21 @@
     * Run php artisan queue:listen
     * https://www.itsolutionstuff.com/post/laravel-8-queue-step-by-step-tutorial-exampleexample.html
 
-17 - MODEL RELATIONS
+19 - STUBS, COLLECTION AND HELPERS
+----------------------------------
+    * php artisan stub:publish
+    * Path root folder stubs
+    * Customize artisan make commands
+    * https://laravel.com/docs/9.x/artisan#stub-customization
+
+    * https://laravel.com/docs/9.x/collections
+
+    * https://laravel.com/docs/9.x/helpers
+    * Path App/Helpers.php
+    * Create custom helper function on helpers.php
+
+20 - API AND SANCTUM
 --------------------
+    * php artisan make:controller ApiController --api
+    * Path routes api
+    * api routes not allowed session and csrf

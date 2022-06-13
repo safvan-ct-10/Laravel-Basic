@@ -98,7 +98,7 @@
     * Path - app/console/commands
     * Methods - argument, ask, secret, confirm, anticipate, info, error, 
 
-14 - TASK SCHEDULING (Cron Job)
+14 - TASK SCHEDULING (CRON JOB)
 --------------------
     * Path - app/console/kernel.php schedule()
     * php artisan schedule:list
@@ -134,6 +134,25 @@
     * Event implement ShouldBroadcast
     * Change PrivateChannel to Channel on - Event broadcastOn()
     * Create broadcastAs() on Event and return event short name for call this event on frontend
+
+17 - OBSERVERS
+---------------
+    * Trigger an function when model has create, update, delete
+    * php artisan make:observe UserObserver --model=User
+    * Path App\Observer
+    * Register at App\Provider\EventServiceProvider.php on boot()
+    * https://laravel.com/docs/9.x/eloquent#observers
+
+18 - JOB & QUEUE
+--------------
+    * QUEUE_CONNECTION=
+    * Generate migration - php artisan queue:table
+    * php artisan migrate
+    * php artisan make:job SendUserEmailJob
+    * Path App\Jobs
+    * Call job in controller
+    * Run php artisan queue:listen
+    * https://www.itsolutionstuff.com/post/laravel-8-queue-step-by-step-tutorial-exampleexample.html
 
 17 - MODEL RELATIONS
 --------------------

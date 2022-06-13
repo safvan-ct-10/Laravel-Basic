@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Events\UserCreateEvent;
 use App\Listeners\UserCreateListener;
 use App\Listeners\UserUpdateListener;
+use App\Models\User;
+use App\Observers\UserObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
@@ -22,6 +24,10 @@ class EventServiceProvider extends ServiceProvider
         ],
     ];
 
+    protected $observers = [
+        User::class => [UserObserver::class],
+    ];
+
     /**
      * Register any events for your application.
      *
@@ -29,7 +35,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        User::observe(UserObserver::class);
     }
 
     /**

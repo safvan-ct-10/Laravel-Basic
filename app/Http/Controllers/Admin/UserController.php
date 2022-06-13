@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\UserCreateEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendUserEmailJob;
 use App\Mail\UserCreatedMail;
 use App\Models\Country;
 use App\Models\User;
@@ -100,6 +101,7 @@ class UserController extends Controller
         $user->update($data);
 
         UserCreateEvent::dispatch($data);
+        SendUserEmailJob::dispatch($data);
 
         cache()->forget('users');
 
